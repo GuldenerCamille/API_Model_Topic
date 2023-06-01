@@ -1,0 +1,5 @@
+fastapi==0.95.2
+gensim==4.2.0
+PyMySQL==1.0.3
+setuptools==56.0.0
+uvicorn
