@@ -1,7 +1,5 @@
-python-dotenv @
 fastapi==0.95.2
-gensim==4.0.0
-PyMySQL==1.0.3
+gensim==4.3.1
+pymysql==1.0.3
+python-dotenv==1.0.0
 setuptools==56.0.0
-scikit-learn==1.1.2
-uvicorn==0.22.0
