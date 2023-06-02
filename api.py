@@ -17,6 +17,7 @@ app = FastAPI()
 import pymysql
 from dotenv import load_dotenv
 
+
 def connect():
     load_dotenv('.env')
     cnx = pymysql.connect(
