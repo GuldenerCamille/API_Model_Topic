@@ -14,38 +14,20 @@ from model import label_topic, preprocess_text, perform_topic_modeling
 
 # Initialisation de l'app FastAPI/connexion BDD.
 app = FastAPI()
-
-
-# def connect():
-#     cnx = mysql.connector.connect(
-#         user="ahmed",
-#         password="Flight_delay",
-#         host="ahmedsakserver.mysql.database.azure.com",
-#         port=3306,
-#         database="nlp_topic",
-#         ssl_disabled=False
-#     )
-#     return cnx
+import pymysql
+from dotenv import load_dotenv
 
 def connect():
-    # Récupérer l'URL de la base de données à partir des variables d'environnement
-    database_url = os.getenv("DATABASE_URL")
-
-    # Extraire les composants de l'URL de la base de données
-    url_components = urlparse(database_url)
-    db_host = url_components.hostname
-    db_user = url_components.username
-    db_password = url_components.password
-    db_name = url_components.path.strip('/')
-
-    # Configurer la connexion à la base de données MySQL
-    conn = pymysql.connect(
-        host=db_host,
-        user=db_user,
-        password=db_password,
-        database=db_name
+    load_dotenv('.env')
+    cnx = pymysql.connect(
+        user     = os.getenv("DB_USER"),
+        password = os.getenv("DB_PASSWORD"),
+        host     = os.getenv("DB_HOST"),
+        port     = int(os.getenv("DB_PORT")),
+        database = os.getenv("DB_NAME"),
+        ssl      = {'ssl_disabled': os.getenv("DB_SSL_DISABLED") == "True"}
     )
-    return conn
+    return cnx
 
 # ================================ REQUETES SQL =================================>
 
@@ -56,7 +38,6 @@ def insert_data_to_database(data, table, connexion):
         table1_sql = f"INSERT INTO {table} (abstract, topic_prediction) VALUES (%s, %s)"
         cursor.execute(table1_sql, (data["feature"], data["prediction"]))
         connexion.commit()
-        cursor.close()
     except Exception as e:
         print(e)
 
@@ -65,7 +46,6 @@ def get_data_from_database(table, connexion):
     cursor = connexion.cursor()
     cursor.execute(f"SELECT * FROM {table}")
     data = cursor.fetchall()
-    connexion.close()
     return data
 
 # Fonction pour supprimer les données depuis la base de données MySQL.
@@ -73,7 +53,6 @@ def delete_data_from_database(table, connexion):
     cursor = connexion.cursor()
     cursor.execute(f"DELETE FROM {table}")
     connexion.commit()
-    connexion.close()
 
 # ================================ END POINT ====================================>
 
