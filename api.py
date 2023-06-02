@@ -12,7 +12,7 @@ from model import label_topic, preprocess_text, perform_topic_modeling
 # 1) execute => uvicorn api:app --reload.
 # 2) execute => run streamlit main.py.
 
-# Initialisation de l'app FastAPI/connexion BDD. hi
+# Initialisation de l'app FastAPI/connexion BDD.
 app = FastAPI()
 import pymysql
 from dotenv import load_dotenv
