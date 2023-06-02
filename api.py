@@ -27,6 +27,7 @@ def connect():
         database = os.getenv("DB_NAME"),
         ssl      = {'ssl_disabled': os.getenv("DB_SSL_DISABLED") == "True"}
     )
+
     return cnx
 
 # ================================ REQUETES SQL =================================>
